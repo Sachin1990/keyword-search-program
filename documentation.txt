@@ -1,0 +1,59 @@
+Understanding of the problem statement:-
+--------------------------------------
+1) Index Mode :-
+Input :- Url of website
+example:- www.helpinglostpets.com, www.jobsite.co.uk
+The program should take url as an input, crawl through the contents of the site and list the keywords excluding the adjectives and conjunctions.
+The keywords should be listed based on weightage. The weights for the keyword should be given based on the number of occurences of the word in site.
+The extracted keywords should be stored in a file
+
+2) Search Mode :-
+Input :- search keyword
+example :- dog,cat
+The program should take a search keyword as input and list the websites containing more occurences of the keyword in descending order.
+
+=============================================================================================================================================================
+
+Steps to run the program:-
+-------------------------
+1) Goto the directory named containing the code in the command prompt.
+2) Type the command "php KeywordSearch.php".
+3) The program prompts to enter the url to be crawled.Enter the url
+4) Program lists the keywords along with its weight.
+5) Then the program ask to select option of index or search mode.
+6) If search mode is chosen then the program asks to enter keyword.
+7) If keyword matchs, then websites containing the keyword is listed in descending order of their weights.
+
+=============================================================================================================================================================
+
+Explaination of the code :-
+------------------------
+1) Navigation :- Navigation function is used to navigate between index and search mode. When a user enters the url it records the url in a file.
+   ----------
+
+2) Index Mode :-
+   -----------
+*) Get the page text :- get_web_page( ) function fetchs the contents the of the web pageusing CURL.
+*) Determine the page's character encoding :- The content type of the webpage is parsed to get the character encoding.
+*) Convert the page text to UTF-8 :- It is not practical to code for a keyword extractor for different character encoding.Hence mb_convert_encoding()
+   is used to convert the contents into UTF-8 encoding.
+*) Remove HTML syntax :-  strip_html_tags( ) function is used to strip HTML tags.
+*) Decode HTML character references :- html_entity_decode() function is used to decode HTML character references like &copy; creates a © symbol etc.
+*) Strip punctuation characters :- strip_punctuation() function is used to remove unwanted characters like punctuations, full stops etc.
+*) Strip symbol characters :- strip_symbols( ) function is used to remove symbols like =,+,- etc.
+*) Strip number characters :- strip_numbers() function is used to remove numbers from the content.
+*) Convert to lower case :- mb_strtolower() function is used to lower case the words in the contents.
+*) Split the text into a word list :- mb_split() function is used split the text into words.
+*) Stem the words :- Stemming shortens a word to its root. This reduces words like "Stem", "Stems", and "Stemming" to just "Stem".This is achieved using 
+   PHP implementation of "The Porter Stemming Algorithm".
+*) Remove stop words :- The stopwords like and, is, the etc is removed by creaating a library of stop words and comparing the stopwords with the words 
+   extracted from the web page and removing them.
+*) Count keyword usage :- The number of occurences of the keywords is counted and sorted in descending order.The ocurrences is considered as the strength
+   of the keyword.
+*) Write the keywords to a file :- Finally the extracted keywords and their strengths are recored in file under the name of the website which the user
+   had entered.
+
+3) Search Mode:- The entered search key is searched against the list of keywords extracted from the websites, which are stored in a file. If two or
+   ------------  more website contain the same key then the websites are listed in descending order based on their keyword strength.
+
+=============================================================================================================================================================
